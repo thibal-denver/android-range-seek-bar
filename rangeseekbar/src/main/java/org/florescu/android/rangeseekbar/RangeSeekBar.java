@@ -669,6 +669,9 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
 
             String minText;
             String maxText;
+
+
+
             if (formatter == null) {
                 minText = valueToString(getSelectedMinValue());
                 maxText = valueToString(getSelectedMaxValue());
@@ -686,16 +689,19 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
                 // check if the labels overlap, or are too close to each other
                 int spacing = PixelUtil.dpToPx(getContext(), TEXT_LATERAL_PADDING_IN_DP);
                 float overlap = minPosition + minTextWidth - maxPosition + spacing;
-                if (overlap > 0f) {
+                boolean textEquals = minText.equals(maxText);
+                if (overlap > 0f && !textEquals) {
                     // we could move them the same ("overlap * 0.5f")
                     // but we rather move more the one which is farther from the ends, as it has more space
                     minPosition -= overlap * normalizedMinValue / (normalizedMinValue + 1-normalizedMaxValue);
                     maxPosition += overlap * (1-normalizedMaxValue) / (normalizedMinValue + 1-normalizedMaxValue);
                 }
-                canvas.drawText(minText,
-                        minPosition,
-                        2 * thumbHalfHeight + textSize + distanceToTop,
-                        paint);
+                if (!textEquals) {
+                    canvas.drawText(minText,
+                            minPosition,
+                            2 * thumbHalfHeight + textSize + distanceToTop,
+                            paint);
+                }
 
             }
 
