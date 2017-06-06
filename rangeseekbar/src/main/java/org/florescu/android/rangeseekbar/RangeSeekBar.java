@@ -629,8 +629,8 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
         padding = internalPad + minMaxLabelSize + thumbHalfWidth;
 
         // draw seek bar background line
-        rect.left = padding;
-        rect.right = getWidth() - padding;
+        rect.left = padding - thumbHalfHeight;
+        rect.right = getWidth() - padding + thumbHalfHeight;
         canvas.drawRect(rect, paint);
 
         boolean selectedValuesAreDefault = (normalizedMinValue <= minDeltaForDefault && normalizedMaxValue >= 1 - minDeltaForDefault);
@@ -669,8 +669,6 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
 
             String minText;
             String maxText;
-
-
 
             if (formatter == null) {
                 minText = valueToString(getSelectedMinValue());
