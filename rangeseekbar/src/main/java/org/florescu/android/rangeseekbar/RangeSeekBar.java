@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -44,6 +45,8 @@ import org.florescu.android.util.BitmapUtil;
 import org.florescu.android.util.PixelUtil;
 
 import java.math.BigDecimal;
+import java.util.Formatter;
+import java.util.Locale;
 
 /**
  * Widget that lets users select a minimum and maximum value on a given numerical range.
@@ -136,6 +139,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private Matrix thumbShadowMatrix = new Matrix();
 
     private boolean activateOnDefaultValues;
+    private String formatter;
 
 
     public RangeSeekBar(Context context) {
@@ -665,8 +669,15 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             paint.setTextSize(textSize);
             paint.setColor(textAboveThumbsColor);
 
-            String minText = valueToString(getSelectedMinValue());
-            String maxText = valueToString(getSelectedMaxValue());
+            String minText;
+            String maxText;
+            if (formatter == null) {
+                minText = valueToString(getSelectedMinValue());
+                maxText = valueToString(getSelectedMaxValue());
+            } else {
+                minText = String.format(Locale.getDefault(), formatter, getSelectedMinValue());
+                maxText = String.format(Locale.getDefault(), formatter, getSelectedMaxValue());
+            }
             float minTextWidth = paint.measureText(minText);
             float maxTextWidth = paint.measureText(maxText);
             // keep the position so that the labels don't get cut off
@@ -700,6 +711,10 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     protected String valueToString(T value) {
         return String.valueOf(value);
+    }
+
+    public void setFormat(@Nullable String string) {
+        this.formatter = string;
     }
 
     /**
