@@ -39,13 +39,11 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
-import android.widget.ImageView;
 
 import org.florescu.android.util.BitmapUtil;
 import org.florescu.android.util.PixelUtil;
 
 import java.math.BigDecimal;
-import java.util.Formatter;
 import java.util.Locale;
 
 /**
@@ -61,7 +59,7 @@ import java.util.Locale;
  * @author Alex Florescu (alex@florescu.org)
  * @author Michael Keppler (bananeweizen@gmx.de)
  */
-public class RangeSeekBar<T extends Number> extends ImageView {
+public class RangeSeekBar<T extends Number> extends android.support.v7.widget.AppCompatImageView {
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
      */
@@ -260,9 +258,9 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 DEFAULT_TEXT_DISTANCE_TO_BUTTON_IN_DP) + this.distanceToTop;
 
         rect = new RectF(padding,
-                textOffset + thumbHalfHeight - barHeight / 2,
+                thumbHalfHeight - barHeight / 2,
                 getWidth() - padding,
-                textOffset + thumbHalfHeight + barHeight / 2);
+                thumbHalfHeight + barHeight / 2);
 
         // make RangeSeekBar focusable. This solves focus handling issues in case EditText widgets are being used along with the RangeSeekBar within ScrollViews.
         setFocusable(true);
@@ -696,14 +694,14 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 }
                 canvas.drawText(minText,
                         minPosition,
-                        distanceToTop + textSize,
+                        2 * thumbHalfHeight + textSize + distanceToTop,
                         paint);
 
             }
 
             canvas.drawText(maxText,
                     maxPosition,
-                    distanceToTop + textSize,
+                    2 * thumbHalfHeight + textSize + distanceToTop,
                     paint);
         }
 
@@ -756,7 +754,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         }
 
         canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth,
-                textOffset,
+                0,
                 paint);
     }
 
